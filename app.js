@@ -1,16 +1,14 @@
-var socket = require('socket.io');
-var http = require('http');
+var express = require('express');
+var app = express();
+
+var http = require('http').Server(app);
 var fs = require('fs');
+var io = require('socket.io')(http);
 
 var port = 8080;
 
-var page = null;
-fs.readFile('./index.html',function(err,data){
-  page = data;
-  console.log(page);
-});
-var server = http.createServer(function(req,res){
-  res.end(page);
+app.get('/',function(req,res){
+  res.sendFile(__dirname+'/index.html');
 });
 
-server.listen(port);
+http.listen(port);
